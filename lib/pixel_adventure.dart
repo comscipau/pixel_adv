@@ -5,16 +5,22 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:pixel_adv/levels/level.dart';
 
-class PixelAdventure extends FlameGame{
+class PixelAdventure extends FlameGame {
   @override
   Color backgroundColor() => const Color(0xFF211F30);
   late final CameraComponent cam;
 
-  final world = Level();
+  final world = Level(levelName: "level_02");
 
   @override
-  FutureOr<void> onLoad() {
-    cam = CameraComponent.withFixedResolution(width: 640, height: 360, world: world);
+  FutureOr<void> onLoad() async {
+    await images.loadAllImages();
+
+    cam = CameraComponent.withFixedResolution(
+      width: 640,
+      height: 360,
+      world: world,
+    );
     cam.viewfinder.anchor = Anchor.topLeft;
     addAll([cam, world]);
     return super.onLoad();

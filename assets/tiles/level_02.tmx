@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="22">
+<map version="1.10" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="40" height="23" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="30">
  <tileset firstgid="1" source="Pixel Adventure.tsx"/>
  <layer id="1" name="background" width="40" height="23">
+  <properties>
+   <property name="BackgroundColor" value="Gray"/>
+  </properties>
   <data encoding="csv">
 24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,
 24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,
@@ -47,5 +50,13 @@
  </objectgroup>
  <objectgroup id="2" name="spawn_points">
   <object id="1" name="player" type="player" x="208" y="256" width="32" height="32"/>
+  <object id="22" name="Apple" type="Fruit" x="80" y="80" width="32" height="32"/>
+  <object id="23" name="Bananas" type="Fruit" x="144" y="112" width="32" height="32"/>
+  <object id="24" name="Cherries" type="Fruit" x="208" y="144" width="32" height="32"/>
+  <object id="25" name="Kiwi" type="Fruit" x="272" y="112" width="32" height="32"/>
+  <object id="26" name="Melon" type="Fruit" x="352" y="96" width="32" height="32"/>
+  <object id="27" name="Orange" type="Fruit" x="432" y="112" width="32" height="32"/>
+  <object id="28" name="Pineapple" type="Fruit" x="544" y="128" width="32" height="32"/>
+  <object id="29" name="Strawberry" type="Fruit" x="80" y="176" width="32" height="32"/>
  </objectgroup>
 </map>

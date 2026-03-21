@@ -5,6 +5,8 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
+import 'package:pixel_adv/components/background_tile.dart';
+import 'package:pixel_adv/components/jump_button.dart';
 import 'package:pixel_adv/components/player.dart';
 import 'package:pixel_adv/components/level.dart';
 
@@ -15,7 +17,7 @@ class PixelAdventure extends FlameGame
   late CameraComponent cam;
   Player player = Player(character: 'Mask Dude');
   late JoystickComponent joystick;
-  bool showJoystick = false;
+  bool showControls = false;
   List<String> levelNames = ['level_02', 'level_03', 'level_01'];
   int currentLevelIndex = 0;
 
@@ -23,11 +25,15 @@ class PixelAdventure extends FlameGame
   FutureOr<void> onLoad() async {
     await images.loadAllImages();
 
+    cam = CameraComponent.withFixedResolution(width: 640, height: 360);
+    cam.viewfinder.anchor = Anchor.topLeft;
+    add(cam);
+
     _loadLevel();
 
-    if (showJoystick) {
+    if (showControls) {
       addJoystick();
-      cam.viewport.add(joystick);
+      cam.viewport.add(JumpButton());
     }
 
     return super.onLoad();
@@ -35,7 +41,7 @@ class PixelAdventure extends FlameGame
 
   @override
   void update(double dt) {
-    if (showJoystick) {
+    if (showControls) {
       updateJoystick();
     }
     super.update(dt);
@@ -43,13 +49,14 @@ class PixelAdventure extends FlameGame
 
   void addJoystick() {
     joystick = JoystickComponent(
+      priority: 10,
       knob: SpriteComponent(sprite: Sprite(images.fromCache('HUD/knob.png'))),
       background: SpriteComponent(
         sprite: Sprite(images.fromCache('HUD/joystick.png')),
       ),
       margin: const EdgeInsets.only(left: 32, bottom: 32),
     );
-    add(joystick);
+    cam.viewport.add(joystick);
   }
 
   void updateJoystick() {
@@ -76,19 +83,14 @@ class PixelAdventure extends FlameGame
         player: player,
         levelName: levelNames[currentLevelIndex],
       );
-
-      cam = CameraComponent.withFixedResolution(
-        width: 640,
-        height: 360,
-        world: world,
-      );
-      cam.viewfinder.anchor = Anchor.topLeft;
-      addAll([cam, world]);
+      cam.world = world;
+      add(world);
     });
   }
 
   void loadNextLevel() {
     removeWhere((component) => component is Level);
+    removeWhere((component) => component is BackgroundTile);
 
     if (currentLevelIndex < levelNames.length - 1) {
       currentLevelIndex++;

@@ -20,6 +20,7 @@ class Level extends World with HasGameReference<PixelAdventure> {
 
   @override
   FutureOr<void> onLoad() async {
+    priority = 0;
     level = await TiledComponent.load("$levelName.tmx", Vector2(16, 16));
     addAll([level]);
 
@@ -40,6 +41,7 @@ class Level extends World with HasGameReference<PixelAdventure> {
         switch (spawnPoint.class_) {
           case "player":
             player.position = Vector2(spawnPoint.x, spawnPoint.y);
+            player.scale.x = 1;
             add(player);
             break;
           case "Fruit":
@@ -106,26 +108,25 @@ class Level extends World with HasGameReference<PixelAdventure> {
   }
 
   void _scrollingBackground() {
+    const double viewWidth = 640;
+    const double viewHeight = 360;
+    const double tileSize = 64;
+
+    final int numTilesX = (viewWidth / tileSize).ceil();
+    final int numTilesY = (viewHeight / tileSize).ceil();
+
     final backgroundLayer = level.tileMap.getLayer('background');
-    const tileSize = 64;
+    final backgroundColor =
+        backgroundLayer?.properties.getValue('BackgroundColor') ?? 'Gray';
 
-    final numTilesY = (game.size.y / tileSize).floor();
-    final numTilesX = (game.size.x / tileSize).floor();
+    for (int y = -1; y <= numTilesY; y++) {
+      for (int x = 0; x <= numTilesX; x++) {
+        final backgroundTile = BackgroundTile(
+          color: backgroundColor,
+          position: Vector2(x * tileSize, y * tileSize),
+        );
 
-    if (backgroundLayer != null) {
-      final backgroundColor = backgroundLayer.properties.getValue(
-        'BackgroundColor',
-      );
-
-      for (double y = 0; y < game.size.y / numTilesY; y++) {
-        for (double x = 0; x < numTilesX; x++) {
-          final backgroundTile = BackgroundTile(
-            color: backgroundColor ?? 'Gray',
-            position: Vector2(x * tileSize, y * tileSize - tileSize),
-          );
-
-          add(backgroundTile);
-        }
+        add(backgroundTile);
       }
     }
   }

@@ -18,7 +18,7 @@ class PixelAdventure extends FlameGame
   late CameraComponent cam;
   Player player = Player(character: 'Mask Dude');
   late JoystickComponent joystick;
-  bool showControls = false;
+  bool showControls = true;
   bool playSounds = true;
   double soundVolume = 1.0;
   List<String> levelNames = ['level_02', 'level_03', 'level_01'];
@@ -32,6 +32,7 @@ class PixelAdventure extends FlameGame
       'jump.wav',
       'hit.wav',
       'disappear.wav',
+      'bounce.wav',
     ]);
 
     cam = CameraComponent.withFixedResolution(width: 640, height: 360);

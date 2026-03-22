@@ -33,11 +33,11 @@
                 3,
                 2
             ],
-            "scale": 1,
-            "selectedLayer": 0,
+            "scale": 2,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 355,
-                "y": 183.5
+                "x": 287.5,
+                "y": 220.5
             }
         },
         "level_03.tmx": {

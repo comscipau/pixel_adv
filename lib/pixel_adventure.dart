@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:pixel_adv/components/background_tile.dart';
 import 'package:pixel_adv/components/jump_button.dart';
@@ -18,12 +19,20 @@ class PixelAdventure extends FlameGame
   Player player = Player(character: 'Mask Dude');
   late JoystickComponent joystick;
   bool showControls = false;
+  bool playSounds = true;
+  double soundVolume = 1.0;
   List<String> levelNames = ['level_02', 'level_03', 'level_01'];
   int currentLevelIndex = 0;
 
   @override
   FutureOr<void> onLoad() async {
     await images.loadAllImages();
+    await FlameAudio.audioCache.loadAll([
+      'collect_fruit.wav',
+      'jump.wav',
+      'hit.wav',
+      'disappear.wav',
+    ]);
 
     cam = CameraComponent.withFixedResolution(width: 640, height: 360);
     cam.viewfinder.anchor = Anchor.topLeft;
@@ -96,7 +105,8 @@ class PixelAdventure extends FlameGame
       currentLevelIndex++;
       _loadLevel();
     } else {
-      // no more levels
+      currentLevelIndex = 0;
+      _loadLevel();
     }
   }
 }
